@@ -25,6 +25,12 @@ export default class NewBill {
     formData.append('file', file)
     formData.append('email', email)
 
+    if(!(file.type === "image/jpg" || file.type === "image/jpeg" || file.type === "image/png")) {
+      e.target.value = ""
+      alert("Veuillez choisir un fichier ayant une extension jpg, jpeg ou png.")
+      return
+    } 
+
     this.store
       .bills()
       .create({
