@@ -31,8 +31,8 @@ const onNavigate = (pathname) => {
 }
 
 describe("Given I am connected as an employee", () => {
-  describe("When I am on NewBill Page", () => {
-    test("Then i upload a file and validate the form", async () => {
+  describe("When I am on NewBill Page and I filled in all fields and upload a file", () => {
+    test("Then the store has been updated", async () => {
 
       // attach ui
       document.body.innerHTML = NewBillUI()
@@ -67,7 +67,7 @@ describe("Given I am connected as an employee", () => {
       fireEvent.change(commentary, {target: {value:'my awsome comment'}});
       fireEvent.change(vat, {target: {value:'20'}});
       fireEvent.change(pct, {target: {value:'10'}});
-      
+
       // upload the file
       userEvent.upload(inputFile, newFile);
       await new Promise(process.nextTick);
@@ -91,5 +91,57 @@ describe("Given I am connected as an employee", () => {
       expect(spyStoreBillsUpdate).toHaveBeenCalled()
       // check if that has created a new bill
     })
+  describe("When I am on NewBill Page and I try to upload a file with a wrong format", () => {
+    test("Then the store is not modified", async () => {
+      document.body.innerHTML = NewBillUI()
+      const newbill = new NewBill({document, onNavigate, store: mockStore, localStorage: window.localStorage})
+  
+      const input = screen.getByTestId("file")
+      const file = new File(["fake_image"], "file.pdf", {type: "application/pdf"})
+      userEvent.upload(input, file)
+      await new Promise(process.nextTick)
+  
+      expect(newbill.fileName).not.toBe("file.pdf")
+    })
+  })
+  describe("When I am on NewBill Page and I try to submit the form without uploading a file", () => {
+    test("Then I stay on the NewBill page", async () => {
+      document.body.innerHTML = NewBillUI()
+      const newBill = new NewBill({
+          document,
+        onNavigate,
+        store: mockStore,
+        localStorage: window.localStorage
+      })
+  
+      const spyStoreBillsUpdate = jest.spyOn(mockStore.bills(), 'update');
+  
+      const amount = screen.getByTestId('amount');
+      const commentary = screen.getByTestId('commentary');
+      const datepicker = screen.getByTestId('datepicker');
+      const expenseName = screen.getByTestId('expense-name');
+      const pct = screen.getByTestId('pct');
+      const vat = screen.getByTestId('vat');
+      
+      fireEvent.change(amount, {target: {value:'100'}});
+      fireEvent.change(datepicker, {target: {value:'2023-09-29'}});
+      fireEvent.change(expenseName, {target: {value:'my expense'}});
+      fireEvent.change(commentary, {target: {value:'my awsome comment'}});
+      fireEvent.change(vat, {target: {value:'20'}});
+      fireEvent.change(pct, {target: {value:'10'}});
+      
+      // faut simuler la reception du message "required" champ <input file required> au <form> ?
+      // qui empeche le submit de fonctionner
+  
+      const submitButton = document.getElementById('btn-send-bill');
+      userEvent.click(submitButton);
+      await new Promise(process.nextTick);
+      
+      expect(spyStoreBillsUpdate).not.toHaveBeenCalled()
+  
+      const title = screen.getByText("Envoyer une note de frais");
+      expect(title).toBeTruthy()
+    })
+  })
   })
 })
