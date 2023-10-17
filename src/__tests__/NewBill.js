@@ -3,7 +3,8 @@
  */
 
 // import testing lib
-import { screen, fireEvent, getByText } from "@testing-library/dom"
+import { screen, fireEvent } from "@testing-library/dom"
+import "@testing-library/jest-dom"
 import userEvent from '@testing-library/user-event'
 
 // import local file
@@ -29,20 +30,22 @@ window.localStorage.setItem('user', JSON.stringify({
 const onNavigate = (pathname) => {
   document.body.innerHTML = ROUTES({ pathname })
 }
+// mock window alert
+window.alert = jest.fn()
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page and I filled in all fields and upload a file", () => {
     test("Then it should update the store and display the Bills page", async () => {
-        // attach UI
-        document.body.innerHTML = NewBillUI()
-        
-        // create a container instance
-        const newBill = new NewBill({
-          document,
-          onNavigate,
-          store: mockStore,
-          localStorage: window.localStorage
-        })
+      // attach UI
+      document.body.innerHTML = NewBillUI()
+      
+      // create a container instance
+      const newBill = new NewBill({
+        document,
+        onNavigate,
+        store: mockStore,
+        localStorage: window.localStorage
+      })
 
       // create spy on bills.method
       const spyStoreBillsCreate = jest.spyOn(mockStore.bills(), 'create')
@@ -109,10 +112,35 @@ describe("Given I am connected as an employee", () => {
       const file = new File(["fake_image"], "file.pdf", {type: "application/pdf"})
       userEvent.upload(input, file)
       await new Promise(process.nextTick)
-  
+
       expect(alert).toBeTruthy()
       expect(newBill.fileName).not.toBe("file.pdf")
+
+      window.alert.mockClear()
     })
+  })
+
+  describe("When I am on NewBill Page and I try to upload a file but an error occurs on API", () => {
+    test ("Then it should display an alert", async () => {
+      document.body.innerHTML = NewBillUI()
+
+      jest.spyOn(mockStore, "bills")
+      mockStore.bills.mockImplementationOnce(() => {
+        return {
+          create : () =>  {
+            return Promise.reject(new Error("Erreur 500"))
+          }
+        }})
+
+      const inputFile = screen.getByTestId('file')
+      const file = new File(["fake_image"], "file.jpg", {type: "image/jpg"})
+      userEvent.upload(inputFile, file)
+      await new Promise(process.nextTick)
+      
+      expect(alert).toBeTruthy()
+
+      window.alert.mockClear()
+      })
   })
   })
 })

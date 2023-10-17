@@ -43,7 +43,11 @@ export default class NewBill {
         this.billId = key
         this.fileUrl = fileUrl
         this.fileName = fileName
-      }).catch(error => console.error(error))
+      }).catch(error => {
+        console.error(error)
+        e.target.value = ""
+        alert(error + " : Le serveur a rencontré un problème. Veulliez réessayer plus tard.")
+      })
   }
   handleSubmit = e => {
     e.preventDefault()
