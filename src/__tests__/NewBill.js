@@ -32,9 +32,8 @@ const onNavigate = (pathname) => {
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page and I filled in all fields and upload a file", () => {
-    test("Then the store should be updated and the Bills page should be displayed", async () => {
-      
-        // attach ui
+    test("Then it should update the store and display the Bills page", async () => {
+        // attach UI
         document.body.innerHTML = NewBillUI()
         
         // create a container instance
@@ -91,13 +90,13 @@ describe("Given I am connected as an employee", () => {
       // check if uptade was called
       expect(spyStoreBillsUpdate).toHaveBeenCalled()
 
-      // check if Bills page displayed
+      // check if Bills page is displayed
       const title = screen.getByText("Mes notes de frais")
       expect(title).toBeTruthy()
     })
 
   describe("When I am on NewBill Page and I try to upload a file with a wrong format", () => {
-    test("Then the alert should be displayed and the NewBill class fields should not be updated", async () => {
+    test("Then it should display an alert and keep the NewBill class fields unchanged", async () => {
       document.body.innerHTML = NewBillUI()
       const newBill = new NewBill({
         document,
