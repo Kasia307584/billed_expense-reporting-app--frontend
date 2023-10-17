@@ -82,7 +82,7 @@ describe("Given I am connected as an employee", () => {
 
 // API GET integration tests
   describe("When I navigate to Bills Page", () => {
-    test("fetches bills from mock API GET", async () => {
+    test("Then it should fetch bills from mock API GET", async () => {
       const spyStoreBillsList = jest.spyOn(mockStore.bills(), "list")
       window.onNavigate(ROUTES_PATH.Bills)
       await new Promise(process.nextTick)
@@ -93,7 +93,7 @@ describe("Given I am connected as an employee", () => {
       expect(billStatus).toBeTruthy()
     })
 
-  describe("When an error occurs on API", () => {
+  describe("When I navigate to Bills Page and an error occurs on API", () => {
     beforeEach(() => {
       jest.spyOn(mockStore, "bills")
     })
@@ -112,7 +112,7 @@ describe("Given I am connected as an employee", () => {
       expect(message).toBeTruthy()
     })
 
-    test("fetches messages from an API and fails with 500 message error", async () => {
+    test("fetches bills from an API and fails with 500 message error", async () => {
       mockStore.bills.mockImplementationOnce(() => {
         return {
           list : () =>  {
