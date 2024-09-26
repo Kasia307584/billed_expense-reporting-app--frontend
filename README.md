@@ -1,94 +1,97 @@
+# Billed - expense reporting app
 
-## L'architecture du projet :
-Ce projet, dit frontend, est connecté à un service API backend que vous devez aussi lancer en local.
+Billed is an application to manage employee expense reports. The main focus of this project is on writing JavaScript tests for the front-end.
+The project is build on the top of [this OpenClassrooms project](https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-Front).
 
-Le projet backend se trouve ici: https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-back
+## Installation
 
-## Organiser son espace de travail :
-Pour une bonne organization, vous pouvez créer un dossier bill-app dans lequel vous allez cloner le projet backend et par la suite, le projet frontend:
+### Prerequisites
 
-Clonez le projet backend dans le dossier bill-app :
-```
-$ git clone https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-Back.git
-```
+- Recommended: Node.js 18.16.1
+- NPM
+- To run the project locally, install the backend provided [here](https://github.com/Kasia307584/billed_expense-reports-app--backend)
 
-```
-bill-app/
-   - Billed-app-FR-Back
-```
+### Getting started
 
-Clonez le projet frontend dans le dossier bill-app :
-```
-$ git clone https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-Front.git
+Clone the project:
+
+```bash
+  $ git clone https://github.com/Kasia307584/billed_expense-reporting-app--frontend
 ```
 
-```
-bill-app/
-   - Billed-app-FR-Back
-   - Billed-app-FR-Front
-```
+Install project dependencies:
 
-## Comment lancer l'application en local ?
-
-### étape 1 - Lancer le backend :
-
-Suivez les indications dans le README du projet backend.
-
-### étape 2 - Lancer le frontend :
-
-Allez au repo cloné :
-```
-$ cd Billed-app-FR-Front
+```bash
+  $ npm install
 ```
 
-Installez les packages npm (décrits dans `package.json`) :
-```
-$ npm install
-```
+Install live-server globally for a local server:
 
-Installez live-server pour lancer un serveur local :
-```
-$ npm install -g live-server
+```bash
+  $ npm install -g live-server
 ```
 
-Lancez l'application :
-```
-$ live-server
-```
+### Development
 
-Puis allez à l'adresse : `http://127.0.0.1:8080/`
+Start the development server using live-server:
 
-
-## Comment lancer tous les tests en local avec Jest ?
-
-```
-$ npm run test
+```bash
+  $ live-server
 ```
 
-## Comment lancer un seul test ?
+Open the app in your browser: `http://127.0.0.1:8080/`
 
-Installez jest-cli :
+### How to run tests locally?
 
+Run all the tests:
+
+```bash
+  $ npm run test
 ```
-$npm i -g jest-cli
-$jest src/__tests__/your_test_file.js
+
+Install Jest CLI globally and run a specific test file using Jest:
+
+```bash
+   $ npm install -g jest-cli
+   $ jest src/**tests**/your_test_file.js
 ```
 
-## Comment voir la couverture de test ?
-
+View the test coverage report:
 `http://127.0.0.1:8080/coverage/lcov-report/`
+or
 
-## Comptes et utilisateurs :
+```bash
+$ ./coverage/lcov-report/index.html
+```
 
-Vous pouvez vous connecter en utilisant les comptes:
+### Login credentials
 
-### administrateur : 
-```
-utilisateur : admin@test.tld 
-mot de passe : admin
-```
-### employé :
-```
-utilisateur : employee@test.tld
-mot de passe : employee
-```
+- Admin:
+  - Email: admin@test.tld
+  - Password: admin
+- Employee:
+  - Email: employee@test.tld
+  - Password: employee
+
+## My process
+
+### Build with
+
+- The project base is build with vanilla JavaScript.
+
+Tests are build with:
+
+- Jest
+- Testing library
+
+### What I learned
+
+- use `Chrome Debugger` and `VS Code Debugger` to debug the code
+- implement debugging methodology
+- use `Jest` syntax and `Testing library` to write tests
+- mock some parts of the code
+- implement end-to-end test writing methodology
+
+### Continued development
+
+- cover the rest of the application with tests
